@@ -25,8 +25,6 @@ public abstract class SimpleApp {
 		frame.pack();
 		frame.setVisible(true);
 
-		main();
-		
 		Timer timer = new Timer(20, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -35,6 +33,8 @@ public abstract class SimpleApp {
 			}
 		});
 		timer.start();
+
+		main();
 	}
 	
 	public void main() {
