@@ -1,56 +1,24 @@
 package tbs.simpleapp;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
+
+import tbs.gfx.Screen;
 
 public class SimpleScreen extends JPanel {
-	private final int width;
-	private final int height;
-	private BufferedImage image;
-	private final Graphics2D graphics;
-	private int rgb;
+	private static final long serialVersionUID = 1L;
+	private final Screen screen;
 	
-	SimpleScreen(int width, int height) {
-		this.width = width;
-		this.height = height;
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		graphics = (Graphics2D)image.createGraphics();
-		setPreferredSize(new Dimension(width, height));
-	}
-	
-	public Graphics2D createGraphics() {
-		return (Graphics2D)image.createGraphics();
-	}
-	
-	public void setColour(int rgb) {
-		this.rgb = rgb;
-		graphics.setColor(new Color(rgb));		
-	}
-	
-	public void clear() {
-		graphics.fillRect(0, 0, width, height);
-	}
-	
-	public void fill(int x, int y, int width, int height) {
-		graphics.fillRect(x, y, width, height);
+	SimpleScreen(Screen screen) {
+		setPreferredSize(new Dimension(screen.width, screen.height));
+		this.screen = screen;
 	}
 
-	public void plot(int x, int y) {
-		image.setRGB(x, y, rgb);
-	}
-	
 	@Override
-	public void paintComponent(Graphics g) {
-		g.drawImage(image, 0, 0, null);
+	public void paintComponent(Graphics g2) {
+		Graphics2D g = (Graphics2D)g2;		
+		screen.paint(g);
 	}
 }
