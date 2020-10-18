@@ -47,12 +47,23 @@ public class Turtle implements FrameListener {
 		this.point = point;
 	}
 
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+	
 	public void setPoint(double x, double y) {
 		this.point = new Point2(x, y);
 	}
 	
 	public void setPenDown(boolean isPenDown) {
 		this.isPenDown = isPenDown;
+	}
+	
+	public void reset() {
+		setAngle(0);
+		setColour(0xffffff);
+		setPoint(0, 0);
+		setPenDown(true);
 	}
 	
 	public void move(double distance) {
