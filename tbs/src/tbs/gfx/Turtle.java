@@ -30,7 +30,7 @@ public class Turtle implements FrameListener {
 	}
 	
 	public double getAngle() {
-		return angle * 360 / TAO;
+		return angle * 180.0 / Math.PI;
 	}
 	
 	public boolean getPenDown() {
@@ -48,7 +48,7 @@ public class Turtle implements FrameListener {
 	}
 
 	public void setAngle(double angle) {
-		this.angle = angle;
+		this.angle = angle * Math.PI / 180.0;
 	}
 	
 	public void setPosition(double x, double y) {
@@ -77,7 +77,7 @@ public class Turtle implements FrameListener {
 	}
 	
 	public void rotate(double angle) {
-		angle *= TAO / 360;
+		angle *= Math.PI / 180.0;
 		this.angle = (this.angle + angle) % TAO;
 		this.angle = (this.angle + TAO) % TAO;
 	}
