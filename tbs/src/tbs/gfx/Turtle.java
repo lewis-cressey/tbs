@@ -3,7 +3,7 @@ package tbs.gfx;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import tbs.geom.Point2;
+import tbs.geom.Vec2D;
 
 public class Turtle implements FrameListener {
 	private static final double TAO = Math.PI * 2;
@@ -11,7 +11,7 @@ public class Turtle implements FrameListener {
 	private final Graphics2D paintGraphics;
 	private final Graphics2D overGraphics;
 	private double size;
-	private Point2 point;
+	private Vec2D position;
 	private double angle;
 	private boolean isPenDown = true;
 	
@@ -19,14 +19,14 @@ public class Turtle implements FrameListener {
 		this.size = size;
 		paintGraphics = paintLayer;
 		overGraphics = overLayer;
-		this.point = new Point2(0, 0);
+		this.position = new Vec2D(0, 0);
 		this.angle = 0;
 		
 		setColour(0xffffff);
 	}
 	
-	public Point2 getPoint() {
-		return point;
+	public Vec2D getPosition() {
+		return position;
 	}
 	
 	public double getAngle() {
@@ -43,16 +43,16 @@ public class Turtle implements FrameListener {
 		overGraphics.setColor(c);
 	}
 	
-	public void setPoint(Point2 point) {
-		this.point = point;
+	public void setPosition(Vec2D point) {
+		this.position = point;
 	}
 
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
 	
-	public void setPoint(double x, double y) {
-		this.point = new Point2(x, y);
+	public void setPosition(double x, double y) {
+		this.position = new Vec2D(x, y);
 	}
 	
 	public void setPenDown(boolean isPenDown) {
@@ -62,17 +62,17 @@ public class Turtle implements FrameListener {
 	public void reset() {
 		setAngle(0);
 		setColour(0xffffff);
-		setPoint(0, 0);
+		setPosition(0, 0);
 		setPenDown(true);
 	}
 	
 	public void move(double distance) {
-		int x1 = (int)Math.round(point.x);
-		int y1 = (int)Math.round(point.y);
-		Point2 vector = new Point2(distance, 0).rotate(angle);
-		point = point.add(vector);		
-		int x2 = (int)Math.round(point.x);
-		int y2 = (int)Math.round(point.y);
+		int x1 = (int)Math.round(position.x);
+		int y1 = (int)Math.round(position.y);
+		Vec2D vector = new Vec2D(distance, 0).rotate(angle);
+		position = position.add(vector);		
+		int x2 = (int)Math.round(position.x);
+		int y2 = (int)Math.round(position.y);
 		if (isPenDown) paintGraphics.drawLine(x1, y1, x2, y2);
 	}
 	
@@ -84,19 +84,19 @@ public class Turtle implements FrameListener {
 	
 	@Override
 	public void onFrame() {
-		Point2 points[] = { 
-				new Point2(size, 0),
-				new Point2(-size / 4, size / 2),
-				new Point2(0, 0), 
-				new Point2(-size / 4, -size / 2)
+		Vec2D points[] = { 
+				new Vec2D(size, 0),
+				new Vec2D(-size / 4, size / 2),
+				new Vec2D(0, 0), 
+				new Vec2D(-size / 4, -size / 2)
 		};
 		
-		Point2 src = point.add(points[points.length - 1].rotate(angle));
+		Vec2D src = position.add(points[points.length - 1].rotate(angle));
 		int x1 = (int)Math.round(src.x);
 		int y1 = (int)Math.round(src.y);
 		
-		for (Point2 dst : points) {
-			dst = point.add(dst.rotate(angle));
+		for (Vec2D dst : points) {
+			dst = position.add(dst.rotate(angle));
 			int x2 = (int)Math.round(dst.x);
 			int y2 = (int)Math.round(dst.y);
 			
