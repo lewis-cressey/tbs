@@ -43,6 +43,10 @@ public class Layer implements Comparable<Layer> {
 		graphics.setComposite(AlphaComposite.SrcOver);
 	}
 	
+	public void fill() {
+		graphics.fillRect(0, 0, width, height);
+	}
+	
 	public void setColour(int rgb) {
 		this.rgb = rgb | 0xff000000;
 		graphics.setColor(new Color(this.rgb));		

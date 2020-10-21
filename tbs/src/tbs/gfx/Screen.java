@@ -41,7 +41,7 @@ public class Screen implements FrameListener {
 	}
 	
 	public void clear() {
-		baseLayer.clear();
+		baseLayer.fill();
 	}
 
 	public void setColour(int rgb) {
