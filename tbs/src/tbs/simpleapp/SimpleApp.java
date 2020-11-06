@@ -11,6 +11,7 @@ import tbs.gfx.Screen;
 
 public abstract class SimpleApp {
 	public final Screen screen;
+	private final JFrame frame;
 	private final SimpleScreen simpleScreen;
 	
 	public SimpleApp() {
@@ -18,9 +19,9 @@ public abstract class SimpleApp {
 	}
 	
 	public SimpleApp(int width, int height) {
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setTitle("Simple graphics window");
+		setTitle("Simple graphics window");
 
 		screen = new Screen(width, height);
 		simpleScreen = new SimpleScreen(screen);
@@ -58,5 +59,9 @@ public abstract class SimpleApp {
 			Thread.sleep(milliseconds);
 		} catch (Exception e) {
 		}
+	}
+	
+	public void setTitle(String title) {
+		frame.setTitle(title);
 	}
 }
