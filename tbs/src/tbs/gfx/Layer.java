@@ -3,8 +3,11 @@ package tbs.gfx;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import tbs.geom.Vec2D;
 
 public class Layer implements Comparable<Layer> {
 	private final int width;
@@ -33,31 +36,15 @@ public class Layer implements Comparable<Layer> {
 		return g;
 	}
 	
+	
+	public Graphics2D getGraphics() {
+		return graphics;
+	}
+	
 	public BufferedImage getImage() {
 		return image;
 	}
 	
-	public void clear() {
-		graphics.setComposite(AlphaComposite.Clear);
-		graphics.fillRect(0, 0, width, height);
-		graphics.setComposite(AlphaComposite.SrcOver);
-	}
-	
-	public void fill() {
-		graphics.fillRect(0, 0, width, height);
-	}
-	
-	public void setColour(int rgb) {
-		this.rgb = rgb | 0xff000000;
-		graphics.setColor(new Color(this.rgb));		
-	}
-	
-	public void plot(int x, int y) {
-		if (x >= 0 && y >= 0 && x < width && y < height) {
-			image.setRGB(x, y, rgb);
-		}
-	}
-
 	@Override
 	public int hashCode() {
 		return depth;

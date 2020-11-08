@@ -45,4 +45,10 @@ public class Vec2D {
 		double y = this.x * sin + this.y * cos;
 		return new Vec2D(x, y);
 	}
+	
+	public IntVec2D toIntVec2D() {
+		int x = (int)Math.round(this.x);
+		int y = (int)Math.round(this.y);
+		return new IntVec2D(x, y);
+	}
 }

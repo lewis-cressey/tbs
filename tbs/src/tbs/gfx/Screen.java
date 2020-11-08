@@ -1,7 +1,9 @@
 package tbs.gfx;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -16,17 +18,23 @@ public class Screen implements FrameListener {
 	private final TreeMap<Integer, Layer> layers = new TreeMap<>();
 	private Layer baseLayer;
 	private Layer superLayer;
+	private Graphics2D graphics;
 	
 	public Screen(int width, int height) {
 		this.width = width;
 		this.height = height;
 		baseLayer = getLayer(0);
 		superLayer = getLayer(SUPER_LAYER);
+		graphics = baseLayer.createGraphics();
 	}
 	
 	@Override
 	public void onFrame() {
-		superLayer.clear();
+		Graphics2D superLayerGraphics = superLayer.getGraphics();
+		superLayerGraphics.setComposite(AlphaComposite.Clear);
+		superLayerGraphics.fillRect(0, 0, width, height);
+		superLayerGraphics.setComposite(AlphaComposite.SrcOver);
+
 		for (FrameListener listener : frameListeners) {
 			listener.onFrame();
 		}
@@ -40,16 +48,28 @@ public class Screen implements FrameListener {
 		return layers.get(depth);
 	}
 	
-	public void clear() {
-		baseLayer.fill();
+	public void fill() {
+		graphics.fillRect(0, 0, width, height);
 	}
 
 	public void setColour(int rgb) {
-		baseLayer.setColour(rgb);
+		graphics.setColor(new Color(rgb));	
 	}
 	
 	public void plot(int x, int y) {
-		baseLayer.plot(x, y);
+		graphics.fillRect(x, y, 1, 1);
+	}
+	
+	public void drawImage(Image image, int x, int y) {
+		graphics.drawImage(image, x, y, null);
+	}
+	
+	public void fillRect(int x1, int y1, int width, int height) {
+		graphics.fillRect(x1, y1, width, height);
+	}
+
+	public void drawLine(int x1, int y1, int x2, int y2) {
+		graphics.drawLine(x1, y1, x2, y2);
 	}
 	
 	public void addFrameListener(FrameListener frameListener) {
