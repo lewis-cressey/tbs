@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import tbs.geom.Vec2D;
+
 public class Screen implements FrameListener {
 	private static final int SUPER_LAYER = 1000;
 
@@ -48,8 +50,14 @@ public class Screen implements FrameListener {
 		return layers.get(depth);
 	}
 	
+	public Vec2D unproject(Vec2D point) {
+		double[] pt = new double[] { point.x, point.y };
+		getLayer(0).getInverseTransform().transform(pt, 0, pt, 0, 1);
+		return new Vec2D(pt[0], pt[1]);
+	}
+	
 	public void fill() {
-		graphics.fillRect(0, 0, width, height);
+		graphics.fillRect(-width / 2, -height / 2, width, height);
 	}
 
 	public void setColour(int rgb) {
@@ -61,7 +69,11 @@ public class Screen implements FrameListener {
 	}
 	
 	public void drawImage(Image image, int x, int y) {
-		graphics.drawImage(image, x, y, null);
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		x -= width / 2;
+		y -= height / 2;
+		graphics.drawImage(image, x, y, x + width, y + height, 0, height, width, 0, null);
 	}
 	
 	public void fillRect(int x1, int y1, int width, int height) {

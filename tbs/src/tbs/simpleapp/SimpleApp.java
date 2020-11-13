@@ -2,11 +2,16 @@ package tbs.simpleapp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import tbs.geom.Vec2D;
 import tbs.gfx.Screen;
 
 public abstract class SimpleApp {
@@ -29,7 +34,7 @@ public abstract class SimpleApp {
 
 		frame.pack();
 		frame.setVisible(true);
-
+		
 		Timer timer = new Timer(20, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -43,7 +48,30 @@ public abstract class SimpleApp {
 			@Override
 			public void run() {
 				main();
+				addListeners();
 				timer.start();
+			}
+		});
+	}
+	
+	private void addListeners() {
+		final SimpleApp app = this;
+		
+		simpleScreen.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				Vec2D point = new Vec2D(e.getX(), e.getY());
+				point = screen.unproject(point);
+				app.onMouseMove((int)point.x, (int)point.y);
+			}			
+		});
+		
+		simpleScreen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Vec2D point = new Vec2D(e.getX(), e.getY());
+				point = screen.unproject(point);
+				app.onMouseClick((int)point.x, (int)point.y);
 			}
 		});
 	}
@@ -52,6 +80,12 @@ public abstract class SimpleApp {
 	}
 	
 	public void onFrame() {
+	}
+	
+	public void onMouseMove(int x, int y) {
+	}
+	
+	public void onMouseClick(int x, int y) {
 	}
 	
 	public void sleep(int milliseconds) {
