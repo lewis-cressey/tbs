@@ -76,16 +76,20 @@ public class Screen implements FrameListener {
 		graphics.drawImage(image, x, y, x + width, y + height, 0, height, width, 0, null);
 	}
 	
-	public void drawImage(Image image, double x, double y, double angle) {
+	public void drawImage(Image image, double x, double y, double radians) {
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
 		int dx = -width / 2;
 		int dy = -height / 2;
 		Graphics2D g = (Graphics2D)graphics.create();
 		g.translate(x, y);
-		g.rotate(angle);
+		g.rotate(radians);
 		g.drawImage(image, dx, dy, dx + width, dy + height, 0, height, width, 0, null);
 		g.dispose();
+	}
+	
+	public void drawImageRotated(Image image, double x, double y, double angle) {
+		drawImage(image, x, y, angle * 180 / Math.PI);
 	}
 	
 	public void fillRect(int x1, int y1, int width, int height) {
