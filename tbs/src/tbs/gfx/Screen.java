@@ -76,20 +76,36 @@ public class Screen implements FrameListener {
 		graphics.drawImage(image, x, y, x + width, y + height, 0, height, width, 0, null);
 	}
 	
-	public void drawImage(Image image, double x, double y, double radians) {
-		int width = image.getWidth(null);
-		int height = image.getHeight(null);
-		int dx = -width / 2;
-		int dy = -height / 2;
+	public void drawImage(Image image, int dx, int dy, int sx, int sy, int width, int height) {
+		dx -= width / 2;
+		dy -= height / 2;
+		graphics.drawImage(image, dx, dy, dx + width, dy + height, sx, sy+height, sx+width, sy, null);
+	}
+	
+	public void drawImageRadians(Image image, double dx, double dy, int sx, int sy, int width, int height, double radians) {
 		Graphics2D g = (Graphics2D)graphics.create();
-		g.translate(x, y);
 		g.rotate(radians);
-		g.drawImage(image, dx, dy, dx + width, dy + height, 0, height, width, 0, null);
+		g.translate(-width / 2, -height / 2);
+		g.drawImage(image, (int)dx, (int)dy, (int)dx + width, (int)dy + height, sx, sy+height, sx+width, sy, null);
 		g.dispose();
 	}
 	
-	public void drawImageRotated(Image image, double x, double y, double angle) {
-		drawImage(image, x, y, angle * 180 / Math.PI);
+	public void drawImageRadians(Image image, double x, double y, double radians) {
+		int width = image.getWidth(null);
+		int height = image.getHeight(null);
+		Graphics2D g = (Graphics2D)graphics.create();
+		g.rotate(radians);
+		g.translate(-width / 2, -height / 2);
+		g.drawImage(image, (int)x, (int)y, (int)x + width, (int)y + height, 0, height, width, 0, null);
+		g.dispose();
+	}
+	
+	public void drawRotatedImage(Image image, double x, double y, int sx, int sy, int width, int height, double angle) {
+		drawImageRadians(image, (int)x, (int)y, sx, sy, width, height, angle * Math.PI / 180.0);
+	}
+	
+	public void drawRotatedImage(Image image, double x, double y, double angle) {
+		drawImageRadians(image, x, y, angle * Math.PI / 180.0);
 	}
 	
 	public void fillRect(int x1, int y1, int width, int height) {
