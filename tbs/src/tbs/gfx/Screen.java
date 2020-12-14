@@ -121,6 +121,11 @@ public class Screen implements FrameListener {
 		graphics.drawOval(x - radius, y-radius, diameter, diameter);
 	}
 	
+	public void fillCircle(int x, int y, int radius) {
+		int diameter = 2 * radius;
+		graphics.fillOval(x - radius, y-radius, diameter, diameter);
+	}
+	
 	public void addFrameListener(FrameListener frameListener) {
 		frameListeners.add(frameListener);
 	}

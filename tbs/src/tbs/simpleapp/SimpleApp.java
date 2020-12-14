@@ -22,7 +22,7 @@ public abstract class SimpleApp {
 	public SimpleApp() {
 		this(400, 400);
 	}
-	
+		
 	public SimpleApp(int width, int height) {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
